@@ -3,10 +3,10 @@
 ## 目录
 #### 01 js变量
 * [01-01](https://github.com/seven-it/js-notebook#01-01) `什么是变量`
-* [01-02](https://github.com/TYRMars/js-notebook#01-02) `js变量的声明`
-* [01-03](https://github.com/TYRMars/js-notebook#01-03) `js变量特性`
-* [01-04](https://github.com/TYRMars/js-notebook#01-04) `js变量类型`
-* [01-05](https://github.com/TYRMars/js-notebook#01-05) `js变量类型之基本包装类型`
+* [01-02](https://github.com/seven-it/js-notebook#01-02) `js变量的声明`
+* [01-03](https://github.com/seven-it/js-notebook#01-03) `js变量特性`
+* [01-04](https://github.com/seven-it/js-notebook#01-04) `js变量类型`
+* [01-05](https://github.com/seven-it/js-notebook#01-05) `js变量类型之基本包装类型`
 
 # 笔记内容
 ---
