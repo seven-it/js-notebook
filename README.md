@@ -89,15 +89,26 @@ console.log(age);//报错
 *细说值类型
     值类型 ：也就是基本类型，不同的值类型 内存地址也不一样；
 ```javascript
-var a = 5;
-var b = a;
-a = 10;
-console.log(b)// 5
+var num1 = 5;
+var num2 = num1;
+num1 = 10;
+console.log(num2)// 5
 
 //从上面代码可以看出  a 与 b两个变量的内存地址是不一样的，修改a 的值不会改变b ;
 //原因：这是因为当一个变量从另一个变量复制基本类型的值时，会在变量对象上创建一个新值，然后把该值分配到新变量的位置上
 ```
     参考下图
 ![image](https://github.com/seven-it/js-/raw/master/images/1.jpg)
-    
-    
+*细说引用类型
+    引用类型： 它表示的是由多个值所组成的对象，变量只是一个指向它内存地址的指针；
+```javascript
+var a = {age:29};
+var b = a;
+a.age = 30;
+console.log(b.age)//30
+console.log(a === b) //true
+
+//面代码可以看出，a 与 b 的指针都指向了相同的对象；
+//因为 我们将a变量赋值给了b，这等于是将a的指针赋值给了b; 所以 修改他们任何一个都会影响另一个；
+```
+
