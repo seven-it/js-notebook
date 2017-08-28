@@ -7,6 +7,11 @@
 * [01-03](https://github.com/seven-it/js-notebook#01-03) `js变量特性`
 * [01-04](https://github.com/seven-it/js-notebook#01-04) `js变量类型`
 * [01-05](https://github.com/seven-it/js-notebook#01-05) `js变量类型之基本包装类型`
+#### 02 js对象
+* [02-01](https://github.com/seven-it/js-notebook#02-01) `什么是对象`
+* [02-02](https://github.com/seven-it/js-notebook#02-02) `typeof操作符`
+* [02-03](https://github.com/seven-it/js-notebook#02-03) `js中真的一切皆对象么`
+* [02-04](https://github.com/seven-it/js-notebook#02-04) `js特殊对象 null`
 
 # 笔记内容
 ---
@@ -273,5 +278,133 @@ console.log(a === b) //false
 * 尽管我们不建议显式的创建基本包装类型的对象，但它们操作基本类型值的能力还是相当重要的。
 * 而每个基本包装类型都提供了操作相应值的便捷方法。
 * 基本包装类型是只能读取而无法写入的；
-        
+---   
+## 02-01
+#### 什么是对象
+
+	对象就是属性与方法的集合
+## 02-02
+#### typeof操作符
+	typeof 操作符 用来检测 数据类型是基本类型还是引用类型
+```javascript
+	通过typeof可以就可以检测出；
+	var str = 'aaa';
+	var num = 123;
+	var blo = true;
+	var und = undefined;
+	var nul = null;
+	var obj = {};
+	var arr = [];
+	var fn = function(){};
+
+	console.log(typeof str);//string
+	console.log(typeof num);//number
+	console.log(typeof blo);//boolean
+	console.log(typeof und);//undefined
+	console.log(typeof nul);//object
+	console.log(typeof obj);//object
+	console.log(typeof arr);//object
+	console.log(typeof fn);//function
+```
+
+	通过typeof我们可以区分出基本类型与引用类型，但是我们想去细分引用类型时 typeof就不是很给力了
+	这时我们就应该通过 instanceof 来去检测引用类型
+```javascript
+	var arr = [];
+	var obj = {};
+	var fn = function (){};
+
+	console.log(arr instanceof Array)
+	console.log(obj instanceof Object)
+	console.log(fn instanceof Function)
+
+	console.log(arr instanceof Object)
+	console.log(obj instanceof Object)
+	console.log(fn instanceof Object)
+	
+	//得到的结果都是 true
+```
+
+	在这里我们有一个问题，typeof 为什么会检测出 function ，而 instanceof 检测fn 返回 Object 为真
+	揭秘：
+	函数实际上也是对象，每个函数都是Function类型的实例，
+	并且与其它引用类型一样具有属性和方法，而函数名实际也是一个指向函数对象的指针；
+	JavaScript把函数当成一种数据类型，可以像其他类型的数据一样，进行赋值和传递，这为编程带来了很大的灵活性，
+	体现了JavaScript作为“函数式语言”的本质
+	例如：
+```javascript
+	function fn (){
+		alert(1);
+	}
+	
+	//我们为它添加一个name属性
+	fn.name = 'fn';
+	
+	//访问它的属性
+	console.log(fn.name)//'fn'
+
+	//我们还可以为它添加一个方法
+	fn.a = function (){
+		alert(2)
+	}
+	fn.a()// 2
+
+	//由于typeof只能检测基本类型，我们想要检测引用类型就要使用instanceof操作符
+	console.log(fn instanceof Object)//true
+	console.log(fn instanceof Function)//true
+
+	//由此我们可以得出 函数也是对象的一种；
+```	
+
+	其实这里我们还可以引出一个问题
+	为什么string,number,boolean是基本类型，但是他们拥有方法和属性；
+	因为在js中存在一种特殊的对象，基本包装对象，它与对象的区别在与生存周期
+	具体可以看一下上面关于包装类型的描述
+* [点击查看01-05 基本包装类型](https://github.com/seven-it/js-notebook#01-05)
+
+## 02-03
+#### js中真的一切皆对象么？
+	答案显然是否定的，这里的一切皆对象仅仅是泛指
+	
+	在我看来 真正的对象仅仅是引用类型而已 对象{} ， 数组[] ,函数 fn;
+	至于基本包装对象，说它是对象它也是，说它不是也可以不是，存在时间那么短，谁在乎呢！
+	null ,准确来说他是个值类型，并且真的有且仅有一个值 就是 null,姑且算它是特殊的对象吧（毕竟要给typeof一个面子的）
+	那么 undefined 呢，人家就只有一个值 Undefined，而且是标准的值类型，和对象压根不搭嘎。
+	只要Undefined一直存在，那么js中就不是真正的一切皆对象啊
+## 02-04
+#### js null
+	通过typeof操作符我们可以看出 null的结果是Object，而在js中，null和Undefined都表示 没有，
+	这两个的语法效果基本一致
+```javascript
+	if (!undefined) {
+	  console.log('undefined is false');
+	}
+	// undefined is false
+
+	if (!null) {
+	  console.log('null is false');
+	}
+	// null is false
+
+	undefined == null
+	// true
+	//在if语句中，它们都会被自动转为false，相等运算符（==）甚至直接报告两者相等。
+```
+
+	从上面代码可见，两者的行为是何等相似！谷歌公司开发的 JavaScript 语言的替代品 Dart 语言，就明确规定只有null，没有undefined！
+	既然含义与用法都差不多，为什么要同时设置两个这样的值，这不是无端增加复杂度，令初学者困扰吗？这与历史原因有关。
+	1995年 JavaScript 诞生时，最初像Java一样，只设置了null作为表示”无”的值。根据C语言的传统，null被设计成可以自动转为0。
+	但是，JavaScript的设计者Brendan Eich，觉得这样做还不够，有两个原因。
+	首先，null像在Java里一样，被当成一个对象。但是，JavaScript的值分成原始类型和合成类型两大类，Brendan Eich觉得表示”无”的值最好不是对象。
+	其次，JavaScript的最初版本没有包括错误处理机制，发生数据类型不匹配时，往往是自动转换类型或者默默地失败。
+	Brendan Eich觉得，如果null自动转为0，很不容易发现错误。
+	因此，Brendan Eich又设计了一个undefined。他是这样区分的：
+	* null是一个表示”无”的对象，转为数值时为0；
+	* undefined是一个表示”无”的原始值，转为数值时为NaN。
+	但是，这样的区分在实践中很快就被证明不可行。目前null和undefined基本是同义的，只有一些细微的差别。
+	
+	那么我们在使用null 和 Undefined是如何来区分的
+	首先根据定义变量值得类型不同，在初始化一个没有值得变量时，
+	如果该变量将来要用做对象赋值，那么我们就显示的 将null初始化给这个变量；也可以增加代码的可读性；
+	
 
