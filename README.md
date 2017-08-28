@@ -80,12 +80,15 @@ console.log(age);//报错
 ## 01-04
 #### javascript 变量类型
 * 概览
+
     javascript 变量类型分为值类型（也叫基本类型）与引用类型，这两个是按照内存地址来划分的;
     
     值类型
+    
       string,number,boolean,undefined,null
       
     引用类型
+    
       Object
         细分的话包括 对象{} ，数组[] , 函数 function
         
@@ -103,9 +106,10 @@ console.log(num2)// 5
 ```
     参考下图
     ![image](https://github.com/seven-it/js-/raw/master/images/1.jpg)
+    
 * 细说引用类型
 
-    引用类型： 它表示的是由多个值所组成的对象，变量只是一个指向它内存地址的指针；
+    引用类型： 它表示的是由多个值所组成的对象，变量只是一个指向它内存地址的指针；
 ```javascript
 var a = {age:29};
 var b = a;
