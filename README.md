@@ -98,7 +98,7 @@ console.log(num2)// 5
 //原因：这是因为当一个变量从另一个变量复制基本类型的值时，会在变量对象上创建一个新值，然后把该值分配到新变量的位置上
 ```
     参考下图
-![image](https://github.com/seven-it/js-/raw/master/images/1.jpg)
+    https://github.com/seven-it/js-/raw/master/images/1.jpg
 *细说引用类型
     引用类型： 它表示的是由多个值所组成的对象，变量只是一个指向它内存地址的指针；
 ```javascript
