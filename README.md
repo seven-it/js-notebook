@@ -12,7 +12,7 @@
 * [02-02](https://github.com/seven-it/js-notebook#02-02) `typeof操作符`
 * [02-03](https://github.com/seven-it/js-notebook#02-03) `js中真的一切皆对象么`
 * [02-04](https://github.com/seven-it/js-notebook#02-04) `js特殊对象 null`
-* [02-05](https://github.com/seven-it/js-notebook#02-04) `为什么推荐使用字面量的形式来创建对象`
+* [02-05](https://github.com/seven-it/js-notebook#02-05) `为什么推荐使用字面量的形式来创建对象`
 
 # 笔记内容
 ---
