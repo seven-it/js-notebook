@@ -21,6 +21,17 @@
 * [03-04](https://github.com/seven-it/js-notebook#03-04) `函数时被谁创建的？`
 * [03-05](https://github.com/seven-it/js-notebook#03-05) `instanceof 操作符原理`
 * [03-06](https://github.com/seven-it/js-notebook#03-06) `原型链与继承`
+#### 04 js执行上下文环境
+* [04-01](https://github.com/seven-it/js-notebook#04-01) `变量的执行上下文环境`
+* [04-02](https://github.com/seven-it/js-notebook#04-02) `函数的执行上下文环境`
+* [04-03](https://github.com/seven-it/js-notebook#04-03) `执行上下文的三种环境`
+#### 05 js作用域
+* [05-01](https://github.com/seven-it/js-notebook#05-01) `什么是作用域`
+* [05-02](https://github.com/seven-it/js-notebook#05-02) `函数的执行上下文环境`
+* [05-03](https://github.com/seven-it/js-notebook#05-03) `执行上下文的三种环境`
+* [05-04](https://github.com/seven-it/js-notebook#05-04) `闭包`
+#### 06 this
+* [06-01](https://github.com/seven-it/js-notebook#06-01) `this调用的模式`
 # 笔记内容
 ---
 ## 01-01
@@ -679,12 +690,415 @@ console.log(a === b) //false
 ![img19](https://github.com/seven-it/js-/raw/master/images/19.jpg)
 ![img20](https://github.com/seven-it/js-/raw/master/images/20.jpg)
 	
+## 04-01
+#### 变量的执行上下文环境
+
+```javascript
+console.log(a)//a is not defined
+console.log(a)//undefined
+var a;
+
+console.log(b)//undefined
+var b = 10;
+```
+
+	上面三个console.log的结果，第一个是报错，第二，三个是Undefined;
+	第一个很好理解 ，根本没有定义a变量当然报错了
+	第二个也很好理解 ，a变量声明了但是未定义，所以返回是Undefined；
+	第三个，我们声明变量也赋值了 返回的同样是Undefined；
+	并且 ，第二个和第三个 我们console.log是在变量声明前进行的 ，为什么不是报错呢?
 	
+	这里就引出了一个执行上下文环境，我们来分解下第三个代码
+	首先js代码执行之前 会将变量提升到执行环境的最顶部；但是不会赋值
+
+```javascript
+console.log(b)//undefined
+var b = 10;
+//上面代码可以解析为
+
+var b; 
+console.log(b) //undefined;
+b=10;
+console.log(b)//10
+//js先将b变量提升，然后console.log的时候只是定义，但未赋值，所以返回Undefined，
+//当console.log结束后 变量赋值，这时再访问b变量就是有值得；
+```
+## 04-01
+#### 变量的执行上下文环境
+
+	上面我们说的都是变量的执行上下文环境，下面来看下函数表达式与函数声明的情况，
+	这两种情况是有区别的；
+	首先函数声明：
 	
+```javascript
+console.log(a)//函数体
+function a(){
+  alert(1)
+}
+//当我们console.log函数a的时候可以得到结果，就是a的函数体；
+//这说明 对于函数声明来说；js会将整个函数都提升到 环境顶部，
+//这也是为什么我们在函数体之前调用函数时，函数也可以顺利执行的原因；
+```
+```javascript
+console.log(a)//函数体
+a()//1
 
+function a(){
+  alert(1)
+}
+//上面代码  a函数 在头部执行，依然可以顺利弹出数字1；
+//整个js运行情况就是:
+//先将函数声明提升到顶部，a()调用其实是在函数体之后的；			
+```
+	
+	但是，不建议像上面那种写法 ，先调用，后声明，的写法，尽量保持先函数声明，后调用函数的写法！！
+	
+	函数表达式：
+```javascript
+console.log(a)//undefined
+var a = function (){
+  alert(1)
+}
+//当使用函数表达式时，作用和普通声明变量是一样的，只会提前声明变量，不会将整个表达式都提升
 
+var a；
+console.log(a)//undefined
+a = function (){
+  alert(1)
+}
 
+//上面的情况一模一样；
 
+```
+## 04-03
+#### 执行上下文的三种环境
+	1.全局环境
+	2.函数体环境
+	3.eval环境
+	
+	全局环境：
+	上面我们所展示的例子都是在全局环境下定义的，全局环境也就是script标签包裹的区域
+	<script>
+	.....代码段
+	</script>
+	
+	函数体环境
+	每一个函数声明内部都会生成执行上下文环境
+```javascript
+function (){
+var a;//默认会提升到这里（最顶部），不会超出范围，也就是为什么在函数外部访问不到函数内的变量；
+执行上下文在花括号里
+
+var a = 10;//这时的a不会提升到全局作用域中，而是在当前函数作用域的最顶部
+}
+```
+
+	eval()环境
+	eval中包含的是一段代码字符串，不推荐使用eval
+	
+## 05-01
+#### 什么是作用域
+
+	作用域就是代码起作用的范围
+	js包含全局作用域与函数作用域 
+	全局作用域 大家都知道怎么回事
+	函数作用域 就是当函数创建时所生成的{}括号内的范围；
+```javascript
+function a (){
+  var b = 10;
+}
+console.log(b)//Undefined
+b在a的作用域中，不在全局作用域 所以 取不到b变量；
+
+var c = 20;
+function a (){
+  var b = 10;
+  console.log(c)
+  console.log(f)//f is not defined
+
+  function x(){
+    var f = 10;
+  }
+  x()
+}
+a()//20
+
+//在a函数中可以取到 全局中 c变量的值；但是取不到函数x中的f变量的值；
+```
+	
+	这里我们是不是可以得出一个结论
+	子函数可以访问父函数的作用域，父函数不能访问子函数的作用域；
+	
+## 05-02
+#### 作用域与执行上下文环境的区别
+
+	作用域与执行上下文环境是两个不同的概念
+	
+	首先 两者的创建时间不一样
+	作用域是在函数创建时就被创建出来的
+	执行上下文环境则是在函数被调用时创建出来的
+
+	其次，两者存在时间不一样
+	执行上下文环境 在当次函数调用完成后就被销毁；
+	作用域只要有函数活动，就不会被销毁；
+
+	作用域只有一个，而执行上下文环境可以有多个，并且可同时存在；
+
+	具体可以参考下面的图例 ，引用自 王福朋大牛博客《深入理解javascript原型和闭包》
+
+	下面我们将按照程序执行的顺序，一步一步把各个上下文环境加上
+	
+	第一步，在加载程序时，已经确定了全局上下文环境，并随着程序的执行而对变量就行赋值。
+	
+![imgfasd](http://images.cnitblog.com/blog/138012/201409/250814158269779.png)
+
+	第二步，程序执行到第27行，调用fn(10)，此时生成此次调用fn函数时的上下文环境，压栈，并将此上下文环境设置为活动状态。
+	
+![imgfasd](http://images.cnitblog.com/blog/138012/201409/250814386853995.png)
+
+	第三步，执行到第23行时，调用bar(100)，生成此次调用的上下文环境，压栈，并设置为活动状态。
+	
+![imgfasd](http://images.cnitblog.com/blog/138012/201409/250815006238997.png)
+
+	第四步，执行完第23行，bar(100)调用完成。则bar(100)上下文环境被销毁。
+	接着执行第24行，调用bar(200)，则又生成bar(200)的上下文环境，压栈，设置为活动状态。
+	
+![imgfasd](http://images.cnitblog.com/blog/138012/201409/250815248579200.png)
+
+	第五步，执行完第24行，则bar(200)调用结束，其上下文环境被销毁。此时会回到fn(10)上下文环境，变为活动状态。
+	
+![imgfasd](http://images.cnitblog.com/blog/138012/201409/250815435609914.png)
+
+	第六步，执行完第27行代码，fn(10)执行完成之后，fn(10)上下文环境被销毁，全局上下文环境又回到活动状态。
+	
+![imgfasd](http://images.cnitblog.com/blog/138012/201409/250816112012394.png)
+
+	最后我们可以把以上这几个图片连接起来看看。
+
+![imgfasd](http://images.cnitblog.com/blog/138012/201409/250816269984619.png)
+
+	作用域只是一个“地盘”，一个抽象的概念，其中没有变量。
+	要通过作用域对应的执行上下文环境来获取变量的值。
+	同一个作用域下，不同的调用会产生不同的执行上下文环境，继而产生不同的变量的值。
+	所以，作用域中变量的值是在执行过程中产生的确定的，而作用域却是在函数创建时就确定了。
+
+	所以，如果要查找一个作用域下某个变量的值，就需要找到这个作用域对应的执行上下文环境，再在其中寻找变量的值。
+	
+## 05-03
+#### 作用域链
+	
+	作用域链与原型链差不多，现在自身查找，再向上查找 ,一直找到全局作用域；
+	
+	例如
+```javascript
+	var a = 1;
+	function fn (){
+	  var b = 2;
+	  function fn1(){
+	    var c = 3;
+	    console.log(c,b);//3,2
+	  }
+	  fn1(); //调用fn1 现在它本作用域找 ，找到了 c 变量，没找到b ,向父级作用域找，找到并返回！
+	}
+	fn();
+```
+	
+	作用域链只能向上查找 不能向下查找
+	
+```javascript
+var c = 20;
+function a (){
+  var b = 10;
+  console.log(c) //20
+  console.log(f)//f is not defined
+  
+  function x(){
+    var f = 10;
+  }
+  x()
+}
+a()
+// 在a函数中可以取到 全局中 c变量的值；但是取不到函数x中的f变量的值；
+```
+
+	最重要的一点 ！
+	
+	作用域链查找的是 创建该函数时所形成的作用域链，也就是从函数本体所在位置向上查找，而不是在函数调用的位置查找；
+	是创建 而不是调用 切记！！！
+
+```javascript
+var x=10;
+function fn(){ //fn函数体被创建在这里  
+	console.log(x)
+}
+
+function show(){
+  var x = 20;
+  (function (){
+    fn() //fn 函数 在这里调用
+    
+   })();
+}
+
+show()//10
+// 结果 是 10 而不是 20 ；
+```
+
+## 05-04
+#### 闭包
+
+个人理解 定义在一个函数内部的函数，作用就是存取私有变量
+
+闭包的应用场景
+
+	1.函数作为返回值
+```javascript
+function F1() {
+  var a = 100;
+  //返回一个函数（函数作为返回值）
+  return function () {
+    console.log(a);//自由变量，父作用域中查找
+  }
+}
+//f1得到一个函数
+var f1 = F1();
+var a = 200;
+f1();
+```
+
+	2.函数作为参数传递
+```javascript
+function F1() {
+  var a = 100;
+  return function () {
+    console.log(a);  //自由变量，父作用域中查找
+  }
+}
+var f1 = F1();
+function F2(fn) {
+  var a = 200;
+  fn();
+}
+F2(f1);
+```
+## 06-01
+#### 关于 this
+
+	this的指向看调用模式
+		方法调用模式
+		函数调用模式
+		构造函数调用模式
+		apply模式
+
+	1.方法调用
+	
+	当一个函数被保存为对象的属性时，称这个函数为方法，当一个方法被调用时，this被绑定到该对象
+```javascript
+var a = {
+  name:1,
+  fn:function(){
+    console.log(this)
+  }
+}
+a.fn()// {object} a对象
+
+//特殊情况 1
+当方法被赋值给变量来调用时，this指向window
+var a = {
+  name:1,
+  fn:function(){
+    console.log(this)
+  }
+}
+
+var b = a.fn;
+b();//window
+
+//特殊情况 2
+当方法里面包含有子函数时，子函数的this 指向window
+var a = {
+  name:1,
+  fn:function(){
+     (function(){
+        console.log(this)
+     })()
+  }
+}
+a.fn();//window
+```
+
+	2.函数调用模式
+	函数调用的this始终指向window
+```javascript
+function a(){
+  console.log(this)
+}
+a()//window
+
+//嵌套函数
+function a(){
+  function b(){
+    console.log(this)
+  }
+  b()//window
+}
+a()//window
+
+//对象中的函数
+var a = {
+  name:1,
+  fn:function(){
+     function d(){
+       console.log(this)
+     }
+    d()//window
+  }
+}
+a.fn();
+
+//可以通过保存this 来再函数内部调用
+var a = {
+  name:1,
+  fn:function(){
+    var that = this
+     function d(){
+       console.log(that)//a对象
+     }
+    d()//window
+  }
+}
+a.fn();
+```
+
+	3.构造函数调用
+	this总是指向即将new出的实例对象上；
+```javascript
+function Foo(name){
+  this.name=name;
+}
+
+var fn1 = new Foo('zs');
+console.log(fn1.name)//zs
+
+//如果直接调用构造函数，那么和调用普通函数没什么区别，this始终在window上；
+
+function Foo(name){
+  this.name=name;
+  console.log(this)
+}
+Foo()//window
+```
+		
+	4.使用apply，call
+	this始终指向第一个参数所对用的对象；
+```javascript
+var obj = {}
+
+function a(){
+  console.log(this)
+}
+a.apply(obj);//obj
+```
 
 
 	
