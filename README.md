@@ -32,7 +32,7 @@
 * [05-04](https://github.com/seven-it/js-notebook#05-04) `闭包`
 #### 06 this
 * [06-01](https://github.com/seven-it/js-notebook#06-01) `this调用的模式`
-#### [参考资料](https://github.com/seven-it/js-notebook#参考资料)
+#### [参考资料链接](https://github.com/seven-it/js-notebook#参考资料)
 # 笔记内容
 ---
 ## 01-01
