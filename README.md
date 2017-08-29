@@ -13,7 +13,9 @@
 * [02-03](https://github.com/seven-it/js-notebook#02-03) `js中真的一切皆对象么`
 * [02-04](https://github.com/seven-it/js-notebook#02-04) `js特殊对象 null`
 * [02-05](https://github.com/seven-it/js-notebook#02-05) `为什么推荐使用字面量的形式来创建对象`
-
+#### 03 js原型
+* [03-01](https://github.com/seven-it/js-notebook#02-01) `函数与对象的关系`
+* [03-02](https://github.com/seven-it/js-notebook#02-01) `prototype对象`
 # 笔记内容
 ---
 ## 01-01
@@ -436,3 +438,49 @@ console.log(a === b) //false
 	3.由于js内置的方法，性能好，速度快
 	4.方便与json的转换
 
+## 03-01
+#### 函数与对象的关系
+	1.对象是由函数来创建的
+```javascript
+	function Foo (){}
+	var fn = new Foo();
+	//上面代码是我们常用创建对象的方式；
+	//更常用的方式比如
+	var obj = {}
+	var arr = []
+	//而上面的方式其实是下面代码的语法糖
+	var obj = new Object;
+	var arr = new Array;
+	检测一下 obj 和 arr
+	console.log(typeof Object)//function
+	console.log(typeof Array)//function
+```
+
+	2.函数也属于特殊的对象；
+```javascript
+	//函数时可以添加属性与方法的
+	function fn(){}
+	fn.age = 29;
+	console.log(fn.age)//29
+	console.log(fn instanceof Object)//true
+	console.log(fn instanceof Function)//true
+	//通过检测  fn 既是对象又是函数 
+	
+	console.log(Object instanceof Function)//true
+	console.log(Function instanceof Object)//true
+	//再次检测对象与函数的关系，都返回true！！！
+```
+
+	3.得出结论 ： 对象是由函数创建的，函数也是对象的一种
+	（这个结论使人更加的迷惑，函数是对象，函数又创建了对象，他们的关系到底是怎样的，这里就要先理解一下prototype）
+## 03-02
+#### prototype原型
+	1.在js中每个函数都会内置一个属性 即 prototype ，这个prototype的属性值是一个 对象 ，
+	  而这个对象默认有一个属性constructor 指向这个函数本身
+	
+	参考图
+
+
+
+
+	
