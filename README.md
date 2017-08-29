@@ -595,6 +595,35 @@ console.log(a === b) //false
 	最终参考图
 ![img18](https://github.com/seven-it/js-/raw/master/images/18.jpg)
 	
+	通过连线可以看出整个对象原型之间的联系，红色的三个区域关系有些特殊，形成了一个环形的引用
+## 03-05
+#### 原型链与继承
+
+	其实到这里就非常容易理解了，具体可以根据上面终极大图来分析
+	
+* 首先是原型链
+
+	原型链就是 __proto__ 隐式原型所存在的一个链条
+	访问一个对象的属性时，先在基本属性中查找，如果没有，再沿着__proto__这条链向上找，这就是原型链！
+* 继承
+
+	继承就是依托原型链，在该原型链上的所有属性与方法都可以被该对象继承
+
+```javascript
+	function Foo (name){
+	  this.name = name
+	}
+	var fn = new Foo;
+	
+	console.log(fn.hasOwnProperty('name')) //true
+```
+
+	通过上面代码分析，fn是Foo构造函数 创建的实例对象，Foo只有一个name属性，那么fn是怎么得到hasOwnProperty方法的？
+	这里首先就是原型链的概念，当fn调用hasOwnProperty方法时，
+	先在它自身找 --> 没有找到 --> 再找Foo.prototype，还是没有 --> 继续找到Object.prototype --> 找到了就继承，没找到就报错
+	
+	参考图
+	
 	
 	
 
