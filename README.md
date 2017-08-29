@@ -479,6 +479,32 @@ console.log(a === b) //false
 	  而这个对象默认有一个属性constructor 指向这个函数本身
 	
 	参考图
+![img9](https://github.com/seven-it/js-/raw/master/images/9.jpg)
+
+	2.在js中会有很多内置的原型对象，这些对象天生带有各种各样的属性和方法，例如Object
+	
+	参考图
+![img10](https://github.com/seven-it/js-/raw/master/images/10.jpg)
+
+	通过上面 函数与原型对象的相互指针，我们可以向原型上添加自定义属性与方法
+```javascript
+	function Foo () {
+
+	}
+	Foo.prototype.name = 'zs';
+	Foo.prototype.age  = 29;
+	//上面代码为原型对象添加自定义属性
+	var fn = new Foo;
+	console.log(fn.name)//zs
+	console.log(fn.age)//29
+	//实例对象可以调用原型对象上的属性
+```
+## 03-03
+#### __proto__ 隐式原型
+	1.通过上面代码可以看出，实例对象可以调用原型对象上的属性；
+	如果说 每个函数都有一个prototype原型对象，那么 每个对象都会有一个 __proto__ 隐式原型指向该函数的显示原型 prototype 对象；
+
+参考图
 
 
 
