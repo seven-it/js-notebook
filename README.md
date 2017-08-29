@@ -13,6 +13,7 @@
 * [02-03](https://github.com/seven-it/js-notebook#02-03) `js中真的一切皆对象么`
 * [02-04](https://github.com/seven-it/js-notebook#02-04) `js特殊对象 null`
 * [02-05](https://github.com/seven-it/js-notebook#02-05) `为什么推荐使用字面量的形式来创建对象`
+* [02-06](https://github.com/seven-it/js-notebook#02-06) `new操作符原理`
 #### 03 js原型
 * [03-01](https://github.com/seven-it/js-notebook#02-01) `函数与对象的关系`
 * [03-02](https://github.com/seven-it/js-notebook#02-01) `prototype对象`
@@ -437,6 +438,54 @@ console.log(a === b) //false
 	2.操作简单，
 	3.由于js内置的方法，性能好，速度快
 	4.方便与json的转换
+## 02-06
+#### new操作符原理
+![img3](https://github.com/seven-it/js-/raw/master/images/3.jpg)
+
+![img4](https://github.com/seven-it/js-/raw/master/images/4.jpg)
+
+	如果我们不通过new操作符来实例化构造函数，那么Foo和普通的函数没什么区别。this也是指向window的；
+	那么new操作符都在这中间起了什么作用
+	
+	根据《js高程三》的描述
+		通过new来调用构造函数会发生以下4步
+			1.创建一个新对象
+			2.将构造函数的作用域赋值给新对象
+			3.执行构造函数中的代码（给新对象添加属性）
+			4.返回新对象
+
+		自己总结
+			1.创建新对象
+			2.新对象的__proto__ 指向 构造函数的原型对象
+			3.将this指向新对象（也就是将自定义属性添加给新对象）
+			4.返回新对象
+			
+	通过代码来演示
+	
+```javascript
+	 var f = new Object();//创建新对象
+	 f.__proto__ = Foo.prototype;//指向构造函数原型对象
+	 Foo.call(f);//this指向新对象
+	 return f;//返回新对象
+```
+
+![img6](https://github.com/seven-it/js-/raw/master/images/6.jpg)
+
+	然而需要注意的是，在第三步之后 js会检测一下构造函数的返回值；
+	如果发现是引用类型的值，那么直接返回该引用类型；如果是基本类型的值，那么返回的还是原对象；
+
+  	当返回引用类型的值时，相当于是另一个对象了 ，该对象不会继承任何属性!
+	
+![img7](https://github.com/seven-it/js-/raw/master/images/7.jpg)
+
+	当返回的是基本类型的值时，遵循的是正常的创建流程
+
+![img8](https://github.com/seven-it/js-/raw/master/images/8.jpg)
+
+	不加return返回的也是Undefined所以 如果是值类型就可以完全省略掉了；
+	
+* new 操作符原理参考资料  [JS中new到底发生了什么](https://warjiang.github.io/devcat/2016/05/12/JS%E4%B8%ADnew%E5%88%B0%E5%BA%95%E5%8F%91%E7%94%9F%E4%BA%86%E4%BB%80%E4%B9%88/)
+
 
 ## 03-01
 #### 函数与对象的关系
@@ -623,6 +672,8 @@ console.log(a === b) //false
 	先在它自身找 --> 没有找到 --> 再找Foo.prototype，还是没有 --> 继续找到Object.prototype --> 找到了就继承，没找到就报错
 	
 	参考图
+![img19](https://github.com/seven-it/js-/raw/master/images/19.jpg)
+![img20](https://github.com/seven-it/js-/raw/master/images/20.jpg)
 	
 	
 	
