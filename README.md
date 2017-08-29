@@ -15,8 +15,12 @@
 * [02-05](https://github.com/seven-it/js-notebook#02-05) `为什么推荐使用字面量的形式来创建对象`
 * [02-06](https://github.com/seven-it/js-notebook#02-06) `new操作符原理`
 #### 03 js原型
-* [03-01](https://github.com/seven-it/js-notebook#02-01) `函数与对象的关系`
-* [03-02](https://github.com/seven-it/js-notebook#02-01) `prototype对象`
+* [03-01](https://github.com/seven-it/js-notebook#03-01) `函数与对象的关系`
+* [03-02](https://github.com/seven-it/js-notebook#03-02) `prototype对象`
+* [03-03](https://github.com/seven-it/js-notebook#03-03) `__proto__ 隐式原型`
+* [03-04](https://github.com/seven-it/js-notebook#03-04) `函数时被谁创建的？`
+* [03-05](https://github.com/seven-it/js-notebook#03-05) `instanceof 操作符原理`
+* [03-06](https://github.com/seven-it/js-notebook#03-06) `原型链与继承`
 # 笔记内容
 ---
 ## 01-01
@@ -645,7 +649,7 @@ console.log(a === b) //false
 ![img18](https://github.com/seven-it/js-/raw/master/images/18.jpg)
 	
 	通过连线可以看出整个对象原型之间的联系，红色的三个区域关系有些特殊，形成了一个环形的引用
-## 03-05
+## 03-06
 #### 原型链与继承
 
 	其实到这里就非常容易理解了，具体可以根据上面终极大图来分析
