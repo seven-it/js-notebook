@@ -587,6 +587,14 @@ console.log(a === b) //false
 	
 	参考图
 	
+![img17](https://github.com/seven-it/js-/raw/master/images/17.jpg)
+
+	根据上图 fn 的原型链的终点就是到达了Object.prototype原型上 所以返回的true
+	同理的，任何的对象最终的终点都会是Object.prototype原型 同样的返回true
+	
+	最终参考图
+![img18](https://github.com/seven-it/js-/raw/master/images/18.jpg)
+	
 	
 	
 
