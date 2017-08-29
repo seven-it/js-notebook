@@ -32,6 +32,7 @@
 * [05-04](https://github.com/seven-it/js-notebook#05-04) `闭包`
 #### 06 this
 * [06-01](https://github.com/seven-it/js-notebook#06-01) `this调用的模式`
+#### [参考资料](https://github.com/seven-it/js-notebook#参考资料)
 # 笔记内容
 ---
 ## 01-01
@@ -1099,6 +1100,12 @@ function a(){
 }
 a.apply(obj);//obj
 ```
+## 参考资料
+
+* [深入理解javascript原型和闭包系列](http://www.cnblogs.com/wangfupeng1988/p/3977987.html)
+* [JavaScript 标准参考教程（alpha)](http://javascript.ruanyifeng.com/#introduction)
+* [JavaScript“并非”一切皆对象](http://www.cnblogs.com/myvin/p/4660138.html)
+* [JS中new到底发生了什么](https://warjiang.github.io/devcat/2016/05/12/JS%E4%B8%ADnew%E5%88%B0%E5%BA%95%E5%8F%91%E7%94%9F%E4%BA%86%E4%BB%80%E4%B9%88/)
 
 
 	
