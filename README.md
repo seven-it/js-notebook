@@ -504,7 +504,93 @@ console.log(a === b) //false
 	1.通过上面代码可以看出，实例对象可以调用原型对象上的属性；
 	如果说 每个函数都有一个prototype原型对象，那么 每个对象都会有一个 __proto__ 隐式原型指向该函数的显示原型 prototype 对象；
 
-参考图
+	参考图
+![img11](https://github.com/seven-it/js-/raw/master/images/11.jpg)
+![img12](https://github.com/seven-it/js-/raw/master/images/12.jpg)
+
+	通过上面两张图 可以看出  obj.__proto__ 与 Object.prototype 显示的结果是一样的!
+	这是因为每个 自定义 函数的原型对象都是通过Object.prototype创建的，所以obj.__proto__ 指向Object.prototype
+	也就是说明 每个对象的 __proto__ 隐式原型指向创建该对象的函数的显示原型 prototype 对象；
+	
+	参考图
+![img13](https://github.com/seven-it/js-/raw/master/images/13.jpg)
+
+	那么有一个问题，函数的原型是一个对象，而对象都有一个__proto__ ，那这个原型有么？
+	答案是肯定的，只要是对象都会有一个__proto__，而自定义函数的原型对象，实际都是由Object.prototype创建出来的；
+	所以 自定义函数的原型对象的 __proto__ 都指向 Object.prototype ！
+	
+	如果所有的原型对象的 __proto__ 都指向了Object.prototype 那它指向哪里呢 ？
+	Object.prototype确实一个特例——它的__proto__指向的是null ！！！
+	也就是说，Object.prototype 是所有原型对象的终点了！
+	
+	参考图
+![img14](https://github.com/seven-it/js-/raw/master/images/14.jpg)
+
+## 03-04
+#### 函数时被谁创建的？
+	前面有说到 ，函数创建了对象，那么函数又是怎么创建出来的？
+```javascript
+	function fn (x,y) {
+	   return x+y
+	}
+	console.log(fn(1,2)) //3
+
+
+	var fn1 = new Function('x','y','return x+y');
+	console.log(fn1(2,3))//5
+```
+
+	以上代码中，第一种方式是比较传统的函数创建方式，第二种是用new Functoin创建。
+	首先根本不推荐用第二种方式。
+	这里只是演示，函数是被Function创建的。
+	
+	根据上面说的一句话——对象的__proto__指向的是创建它的函数的prototype，
+	就会出现：Object.__proto__ === Function.prototype。用一个图来表示。
+	
+![img15](https://github.com/seven-it/js-/raw/master/images/15.png)
+
+	上图中，很明显的标出了：
+	自定义函数Foo.__proto__指向Function.prototype，
+	Object.__proto__指向Function.prototype，
+	唉，怎么还有一个……Function.__proto__指向Function.prototype？这不成了循环引用了？
+
+	对！是一个环形结构。
+
+	其实稍微想一下就明白了。
+	Function也是一个函数，
+	函数是一种对象，也有__proto__属性。
+	既然是函数，那么它一定是被Function创建。
+	所以——Function是被自身创建的。
+	所以它的__proto__指向了自身的Prototype。
+	
+	最后一个问题：Function.prototype指向的对象，它的__proto__是不是也指向Object.prototype？
+	答案是肯定的。因为Function.prototype指向的对象也是一个普通的被Object创建的对象，所以也遵循基本的规则。
+	
+![img16](https://github.com/seven-it/js-/raw/master/images/16.jpg)
+
+## 03-05
+#### instanceof 操作符原理
+	typeof使用来检测基本类型与引用类型的操作符，而instanceof则是检测具体是何种引用类型（细化引用类型）
+```javascript
+	function fn (){
+		alert(1);
+	}
+	//由于typeof只能检测基本类型，我们想要检测引用类型就要使用instanceof操作符
+	console.log(fn instanceof Object)//true
+	console.log(fn instanceof Function)//true
+```
+
+	上面代码 为什么检测Object返回true呢？
+	假设Instanceof运算符的第一个变量是一个对象，暂时称为A；第二个变量一般是一个函数，暂时称为B。
+	Instanceof的判断队则是：沿着A的__proto__这条线来找，同时沿着B的prototype这条线来找，
+	如果两条线能找到同一个引用，即同一个对象，那么就返回true。如果找到终点还未重合，则返回false。
+	
+	参考图
+	
+	
+	
+
+
 
 
 
