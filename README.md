@@ -32,6 +32,10 @@
 * [05-04](https://github.com/seven-it/js-notebook#05-04) `闭包`
 #### 06 this
 * [06-01](https://github.com/seven-it/js-notebook#06-01) `this调用的模式`
+#### 07 异步与单线程
+* [07-01](https://github.com/seven-it/js-notebook#07-01) `理解单线程模型`
+* [07-02](https://github.com/seven-it/js-notebook#07-02) `js异步机制`
+* [07-03](https://github.com/seven-it/js-notebook#07-03) `前端使用异步的场景`
 #### [参考资料链接](https://github.com/seven-it/js-notebook#参考资料)
 # 笔记内容
 ---
@@ -1100,6 +1104,88 @@ function a(){
 }
 a.apply(obj);//obj
 ```
+## 07-01
+#### 理解单线程模型
+	单线程模型指的是，JavaScript只在一个线程上运行。
+	也就是说，JavaScript同时只能执行一个任务，其他任务都必须在后面排队等待。
+	
+	虽然 JavaScript 程序 只在一个线程上运行，
+	但是javascript引擎（也就是浏览器）是有多线程的；
+	单个脚本只能在一个线程上运行，其他线程都是在后台配合。
+	
+* JavaScript之所以采用单线程，
+	* 是因为JavaScript从诞生起就是单线程，
+	* 原因是不想让浏览器变得太复杂，因为多线程需要共享资源、且有可能修改彼此的运行结果，
+	* 例如我在这个线程上添加了DOM ，在另一个线程上又删除了它，那么浏览器应该先执行哪个呢？
+	* 所以，为了避免复杂性，从一诞生，JavaScript就是单线程，这已经成了这门语言的核心特征，将来也不会改变。
+	
+## 07-02
+#### js异步机制
+	
+* js程序用单线程来处理同步程序，为了不使程序发生阻塞，js会将等待的任务先独立出去，等待同步任务全部执行完成 ，再回过头来执行等待的任务；
+
+![img21](https://github.com/seven-it/js-/raw/master/images/21.jpg)
+
+* 例如上图（自己理解的画的）
+	* js在运行时是一行代码一行代码运行的,如果是同步任务,就会依次推入同步任务栈中依次执行；
+	* 当遇到等待任务时，js会先将需要等待执行的任务推入等待任务队列，并且继续执行后面的同步任务；
+	* 当左侧的同步任务栈中的任务都执行完成之后，才会去看一下旁边是否有未执行的等待任务；
+	* 在把等待任务推入同步栈中时，js会先检测一下，将可立即执行的任务推入同步栈中，如果任务没到执行时间，就先不去管它；
+* 例如上图右侧的等待队列中有不同时间执行的任务，
+	* 任务一再1秒后推入同步栈
+	* 任务二 在10秒后推入
+	* 任务三 在请求返回结果后推入（可以立即执行，也可能最后一个执行，看请求时间）
+	* 任务四 在用户点击操作后执行 （如果不点击就一直不执行）
+## 07-03
+#### 前端使用异步的场景
+* 定时器
+```javascript
+	 console.log(0);
+	 setTimeout(function (){
+		console.log(1)
+	 })
+	 //这里没有给定时器设定时间，默认0 但是结果依然是它最后一个输出
+	 //因为js认为定时器是一个异步程序（等待程序） 所以会毫不犹豫的先将它拎出去，等待同步程序执行完
+	 console.log(2)
+	 //结果 0 , 2 , 1
+```
+* ajax请求，图片资源请求
+```javascript
+	console.log(0);
+	$.get("test.json",function (data){
+	console.log('name'+data.name+',age'+data.age);
+	})
+	console.log(2);
+	//结果 0 ,2 ,ajax结果
+	
+	var img = document.createElement('img');
+	img.onload=function (){
+		console.log('加载img成功')
+	}
+	img.src='xxx.jpg'
+
+	document.body.appendChild(img)
+	console.log('end')
+
+	结构 // end  ，加载img成功
+```
+* 事件绑定
+```javascript
+	document.onclick=function (){
+		console.log(0)
+	}
+
+    console.log(1)
+    // 1 , 0
+	//如果不点击  那么永远不会执行
+```
+* 异步与同步的区别
+	* 同步会阻塞代码执行，而异步不会
+	* alert是同步，setTimeout是异步
+* 何时需要异步
+	* 在可能发生等待的情况
+	* 等待过程中不能像alert一样阻塞程序运行
+	* 因此，所有的所有的等待情况都需要异步
 ## 参考资料
 
 * [深入理解javascript原型和闭包系列](http://www.cnblogs.com/wangfupeng1988/p/3977987.html)
