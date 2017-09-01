@@ -36,6 +36,10 @@
 * [07-01](https://github.com/seven-it/js-notebook#07-01) `理解单线程模型`
 * [07-02](https://github.com/seven-it/js-notebook#07-02) `js异步机制`
 * [07-03](https://github.com/seven-it/js-notebook#07-03) `前端使用异步的场景`
+#### 08 js时间对象
+* [08-01](https://github.com/seven-it/js-notebook#08-01) `Date()`
+* [08-02](https://github.com/seven-it/js-notebook#08-01) `get类方法`
+* [08-03](https://github.com/seven-it/js-notebook#08-01) `set类方法`
 #### [参考资料链接](https://github.com/seven-it/js-notebook#参考资料)
 # 笔记内容
 ---
@@ -1186,6 +1190,97 @@ a.apply(obj);//obj
 	* 在可能发生等待的情况
 	* 等待过程中不能像alert一样阻塞程序运行
 	* 因此，所有的所有的等待情况都需要异步
+	
+## 08-01
+#### Date() 
+* 作为普通函数使用 返回当日的日期和时间的字符串,传值或者不传值都是一样的结果
+```javascript
+	Date() 
+	//"Fri Sep 01 2017 15:08:59 GMT+0800 (中国标准时间)"
+	Date('2019')
+	//"Fri Sep 01 2017 15:08:59 GMT+0800 (中国标准时间)"
+```
+* 作为构造函数通过new来实例化对象，返回当日的日期和时间的字符串；
+	* 作为构造函数 ，Date接收多种形式的参数
+	* 可以接收时间戳
+```javascript
+	var myDate = new Date(1504246210863);
+    console.log(myDate)//Fri Sep 01 2017 14:10:10 GMT+0800 (中国标准时间)
+```
+	* 日期字符串作为参数
+	
+			日期字符串的完整格式是“month day, year hours:minutes:seconds”，
+			比如“December 25, 1995  13:30:00”。
+			如果省略了小时、分钟或秒数，这些值会被设为0。
+```javascript
+	new Date('2013-2-15')
+	new Date('2013/2/15')
+	new Date('02/15/2013')
+	new Date('2013-FEB-15')
+	new Date('FEB, 15, 2013')
+	new Date('FEB 15, 2013')
+	new Date('Feberuary, 15, 2013')
+	new Date('Feberuary 15, 2013')
+	new Date('15 Feb 2013')
+	new Date('15, Feberuary, 2013')
+
+	// Fri Feb 15 2013 00:00:00 GMT+0800 (CST)
+```
+	* 注意，在ES5之中，如果日期采用连词线（-）格式分隔，且具有前导0，JavaScript会认为这是一个ISO格式的日期字符串，导致返回的时间是以UTC时区计算的。
+```javascript
+	new Date('2014-01-01')
+	// Wed Jan 01 2014 08:00:00 GMT+0800 (CST)
+
+	new Date('2014-1-1')
+	// Wed Jan 01 2014 00:00:00 GMT+0800 (CST)
+```
+* 参数范围
+	* year：四位年份，如果写成两位数，则加上1900
+	* month：表示月份，0表示一月，11表示12月
+	* date：表示日期，1到31
+	* hour：表示小时，0到23
+	* minute：表示分钟，0到59
+	* second：表示秒钟，0到59
+	* ms：表示毫秒，0到999
+	* 参数如果超出了正常范围，会被自动折算。比如，如果月设为15，就折算为下一年的4月。
+```javascript
+	new Date(2013, 15)
+	// Tue Apr 01 2014 00:00:00 GMT+0800 (CST)
+
+	new Date(2013, 0, 0)
+	// Mon Dec 31 2012 00:00:00 GMT+0800 (CST)
+```
+* Date.now()
+	* Date.now方法返回当前距离1970年1月1日00:00:00UTC的毫秒数。
+
+## 08-02
+#### get类方法
+
+* 汇总
+	* getTime()：返回距离1970年1月1日00:00:00的毫秒数，等同于valueOf方法。
+	* getDate()：返回实例对象对应每个月的几号（从1开始）。
+	* getDay()：返回星期几，星期日为0，星期一为1，以此类推。
+	* getYear()：返回距离1900的年数。
+	* getFullYear()：返回四位的年份。
+	* getMonth()：返回月份（0表示1月，11表示12月）。
+	* getHours()：返回小时（0-23）。
+	* getMilliseconds()：返回毫秒（0-999）。
+	* getMinutes()：返回分钟（0-59）。
+	* getSeconds()：返回秒（0-59）。
+	* getTimezoneOffset()：返回当前时间与UTC的时区差异，以分钟表示，返回结果考虑到了夏令时因素。
+	* 所有这些get*方法返回的都是整数，不同方法返回值的范围不一样。
+## 08-02
+#### set类方法
+* 汇总
+	* setDate(date)：设置实例对象对应的每个月的几号（1-31），返回改变后毫秒时间戳。
+	* setYear(year): 设置距离1900年的年数。
+	* setFullYear(year [, month, date])：设置四位年份。
+	* setHours(hour [, min, sec, ms])：设置小时（0-23）。
+	* setMilliseconds()：设置毫秒（0-999）。
+	* setMinutes(min [, sec, ms])：设置分钟（0-59）。
+	* setMonth(month [, date])：设置月份（0-11）。
+	* setSeconds(sec [, ms])：设置秒（0-59）。
+	* setTime(milliseconds)：设置毫秒时间戳。
 ## 参考资料
 
 * [深入理解javascript原型和闭包系列](http://www.cnblogs.com/wangfupeng1988/p/3977987.html)
