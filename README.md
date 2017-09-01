@@ -1209,9 +1209,9 @@ a.apply(obj);//obj
 ```
 	* 日期字符串作为参数
 	
-			日期字符串的完整格式是“month day, year hours:minutes:seconds”，
-			比如“December 25, 1995  13:30:00”。
-			如果省略了小时、分钟或秒数，这些值会被设为0。
+		日期字符串的完整格式是“month day, year hours:minutes:seconds”，
+		比如“December 25, 1995  13:30:00”。
+		如果省略了小时、分钟或秒数，这些值会被设为0。
 ```javascript
 	new Date('2013-2-15')
 	new Date('2013/2/15')
