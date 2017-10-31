@@ -41,7 +41,7 @@
 * [08-02](https://github.com/seven-it/js-notebook#08-01) `get类方法`
 * [08-03](https://github.com/seven-it/js-notebook#08-01) `set类方法`
 #### 09 js-DOM总结
-* [09-01](https://github.com/seven-it/js-notebook#09-02) `Node类型总结`
+* [09-01](https://github.com/seven-it/js-notebook#09-01) `Node类型总结`
 * [09-02](https://github.com/seven-it/js-notebook#09-02) `DOM方法总结`
 #### [参考资料链接](https://github.com/seven-it/js-notebook#参考资料)
 # 笔记内容
