@@ -40,6 +40,9 @@
 * [08-01](https://github.com/seven-it/js-notebook#08-01) `Date()`
 * [08-02](https://github.com/seven-it/js-notebook#08-01) `get类方法`
 * [08-03](https://github.com/seven-it/js-notebook#08-01) `set类方法`
+#### 09 js-DOM总结
+* [09-01](https://github.com/seven-it/js-notebook#09-02) `Node类型总结`
+* [09-02](https://github.com/seven-it/js-notebook#09-02) `DOM方法总结`
 #### [参考资料链接](https://github.com/seven-it/js-notebook#参考资料)
 # 笔记内容
 ---
@@ -1281,6 +1284,156 @@ a.apply(obj);//obj
 	* setMonth(month [, date])：设置月份（0-11）。
 	* setSeconds(sec [, ms])：设置秒（0-59）。
 	* setTime(milliseconds)：设置毫秒时间戳。
+## 09-01
+#### Node类型总结
+DOM将任何的HTML或XML文档绘制成一个由多层节点构成的结构---节点树。
+##### Node类型
+javascript中所有节点类型都继承自Node类型， 因此所有节点类型都共享着相同的基本属性和方法，节点类型由Node类型中定义的12个数值常量来表示，任何节点都必居其一
+- Node.ELEMENT_NODE(1)　　　　　　　　　　代表element元素节点 
+- Node.ATTRIBUTE_NODE(2) 　　　　　　　　　attr类型
+- Node.TEXT_NODE(3) 　　　　　　　　　　　　text节点 文本节点
+- Node.CDATA_SECTION_NODE(4)
+- Node.ENTITY_REFERENCE_NODE(5)
+- Node.ENTITY_NODE(6)
+- Node.PROCESSING_INSTRUCTION_NODE(7)
+- Node.COMMENT_NODE(8) 　　　　　　　　　　注释节点
+- Node.DOCUMENT_NODE(9)　　　　　　　　　　表示文档类型
+- Node.DOCUMENT_TYPE_NODE(10) // doctype 类型
+- Node.DOCUMENT_FRAGMENT_NODE(11)
+- Node.NOTATION_NODE(12)
+##### Node类型的属性
+1. nodeType属性，用于节点类型检测
+
+```javascript
+    var someNode = document.getElementById('test');
+    if(someNode.nodeType == Node.ELEMENT_NODE){
+        //通过与Node.ELEMENT_NODE 可以判断该节点类型 为元素节点
+        // 由于ie8以下没有公开Node类型的构造函数，所以这种写法只兼容ie9+ 及其他浏览器
+        alert('node is an element')
+    }
+
+    //推荐写法
+    //我们可以通过每个节点类型的数字值来判断，这个写法兼容所有浏览器
+    if(someNode.nodeType == 1){
+        alert('node is an element')
+    }
+```
+2.nodeName 属性
+
+如果是元素节点类型 ，返回元素的标签名 （大写）
+
+```javascript
+    var someNode = document.getElementById('test');
+    if(someNode.nodeType == 1){
+        alert(someNode.nodeName) //DIV
+    }
+```
+3.nodeValue 属性
+
+如果是元素节点类型 ，返回的值始终为 null
+
+
+```javascript
+    var someNode = document.getElementById('test');
+    if(someNode.nodeType == 1){
+        alert(someNode.nodeValue) //null
+    }
+```
+4.childNodes 属性
+
+每个节点都有一个 childNodes属性，这个属性中保存着一个NodeList对象;
+
+NodeList 是一个类数组的对象，用于保存一组有序的节点，可以通过位置来访问这些节点；也就是说可以通过方括号语法来访问这些值NodeList[0],并且该对象也有length属性，但是它不是真正的Array实例
+
+NodeList的独特之处主要在于，它是基于DOM结构动态执行的查询结果，因此DOM的变化能够自动的反应到NodeList中；
+
+可以通过一下两种方法来获取节点列表中的值，
+childNodes[0];
+childNodes.item(1);
+
+#####  Node类型中获取节点的方法
+1. ==parentNode== 获取当前元素节点在节点树上的父节点；
+2. ==nextSibling== 获取当前节点的下一个节点，返回的节点包括：注释节点，换行符，文本节点，如果当前节点是最后一个节点 返回null
+3. ==previousSibling== 获取当前节点的上一个节点，返回的节点包括：注释节点，换行符，文本节点，如果当前节点是该节点列表中的第一个节点，返回null;
+4. ==firstChild== 获取父节点的第一个子节点，返回的节点包括 注释节点，换行符，文本节点
+5. ==lastChild== 获取父节点的最后一个节点，返回的节点包括 注释节点，换行符，文本节点
+
+***注意，通过childNodes来获取的值中，包含文档和注释节点，通常我们需要的是元素节点，所以不推荐通过这种方法来获取元素节点。
+
+**如果要获取元素节点，以上获取节点的方法中除了parentNode之外，都不推荐**
+##### Node类型中 操作节点的方法
+1. == appendChild() == 用于向childNodes列表末尾添加一个节点
+2. ==insertBefore()== 接收两个参数，第一个参数是要添加的节点，第二个参数是参照节点，将第一个参数添加到参照节点的前面，如果第二个参数是null,那么效果与appendChild方法一样
+3. ==repelaceChild()== 节点替换，接收两个参数，第一个参数是要插入的节点，第二个参数是要替换的节点
+4. ==removeChild()== 删除节点
+5. ==cloneNode()==  克隆节点，创建一个完全相同的副本，接收布尔值参数，true表示深复制,false表示浅复制，默认为false
+6. 深复制，会复制当前节点的特性,子节点，不会复制添加到DOM节点中的javascript属性，比如事件处理程序了；
+7. 浅复制，仅仅复制当前节点的的特性，不包含子节点等其它属性
+
+##### 其它节点类型
+- Document 类型
+- Element  类型
+- TEXT类型(文本类型)
+- Comment 类型(注释类型)
+- DocumentType类型 （文档头部的 doctype）
+- Attr类型
+## 09-02
+#### DOM方法总结
+##### 操作节点
+- document.createElement() 创建节点的方法
+- appendChild() 末尾添加节点的方法
+- insertBefore() 向前添加节点的方法
+- repelaceChild() 替换节点
+- removeChild()  删除节点
+- cloneNode()  克隆节点
+##### 获取属性
+- getAttribute() 获取属性方法 
+- setAttribute() 设置属性方法 
+- removeAttribute() 删除属性方法 
+##### 选择器
+- querySelector() 返回与该元素匹配的第一个元素
+- querySelectorAll() 返回与该元素匹配的所有元素
+##### 元素节点遍历
+- children  获取后代元素节点，不包含文本节点与注释  ==兼容ie9+==
+- childElementCount 返回子元素的个数 ，不包含文本节点和注释
+- firstElementChild 返回第一个子元素
+- lastElementChild  返回最后一个子元素
+- previousElementSibling  返回前一个同辈元素
+- nextElementSibling   返回后一个同辈元素
+#### HTML5 API
+- document.getElementsByClassName()   获取class 
+
+##### 操作类名
+- ==ie10==以上的浏览器元素默认有一个classList属性，保存className的一个伪数组，这个属性有4个方法
+- add() 添加class
+- remove() 删除class
+- contains() 查询class，存在则返回true ，不存在返回false
+- toggle() 如果class列表中已存在给定的值，则删除，若没有 则添加
+- ==以上方法在ie10+ 测试有效==
+##### 检测文档是否获取了焦点
+- document.activeElement 返回获取焦点的元素
+- document.hasFocus() 返回布尔值，确定页面是否获取焦点
+- 通过这两个方法可以知道用户是否在和页面交互
+#### 元素大小
+###### 获取元素偏移量
+- offsetHeight 获取元素的垂直高度,包括padding，border，内容高度，滚动条
+- offsetWidth  获取元素水平宽度，包括padding,border,内容宽度，滚动条
+- offsetLeft   获取元素距父元素的左边距
+- offsetTop    获取元素距父元素的上边距
+###### 客户区大小
+- clientWidth 获取客户区宽度，包括padding与内容区大小，不包含滚动条与边框
+- clientHeight 获取客户区高度，包括padding与内容区的大小，不包含滚动条与边框
+###### 滚动高度
+- scrollTop 获取元素被隐藏在内容区域上方的像素数
+- scrollLeft 获取元素被隐藏在内容区左侧的像素数
+### 事件对象
+==兼容IE9+==
+###### 客户区坐标位置
+- 相对于浏览器视口的位置：clientX，clientY
+###### 页面坐标位置
+- 发生事件的元素在整个页面的位置：pageX,pageY
+###### 屏幕坐标位置
+- 鼠标相对于整个显示器屏幕的位置：screenX,screenY
 ## 参考资料
 
 * [深入理解javascript原型和闭包系列](http://www.cnblogs.com/wangfupeng1988/p/3977987.html)
